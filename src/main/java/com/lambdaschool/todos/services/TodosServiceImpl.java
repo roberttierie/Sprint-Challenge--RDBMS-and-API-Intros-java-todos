@@ -3,7 +3,7 @@ package com.lambdaschool.todos.services;
 
 import com.lambdaschool.todos.models.Todos;
 import com.lambdaschool.todos.models.User;
-import com.lambdaschool.todos.repository.TodoRepository;
+import com.lambdaschool.todos.repository.TodosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class TodosServiceImpl implements TodosService {
     @Autowired
-    private TodoRepository todoRepository;
+    private TodosRepository todosRepository;
 
     @Autowired
     UserService userService;
@@ -24,7 +24,7 @@ public class TodosServiceImpl implements TodosService {
     public Todos save(long userid, Todos newTodos){
         User currentUser = userService.findUserById(userid);
         Todos saveTodos = new Todos(currentUser, newTodos.getDescription());
-        todoRepository.save(saveTodos);
+        todosRepository.save(saveTodos);
         return saveTodos;
     }
 
@@ -32,9 +32,9 @@ public class TodosServiceImpl implements TodosService {
     @Override
     public Todos markComplete(long todoid)
     {
-        Todos updateTodos = todoRepository.findById(todoid).orElseThrow(() ->new EntityNotFoundException("This " + todoid + "not available"));
+        Todos updateTodos = todosRepository.findById(todoid).orElseThrow(() ->new EntityNotFoundException("This " + todoid + "not available"));
         updateTodos.setCompleted(true);
-        return todoRepository.save(updateTodos);
+        return todosRepository.save(updateTodos);
     }
 
 }
