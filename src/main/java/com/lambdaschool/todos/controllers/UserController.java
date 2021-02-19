@@ -1,6 +1,7 @@
 package com.lambdaschool.todos.controllers;
 
 import com.lambdaschool.todos.models.User;
+import com.lambdaschool.todos.repository.TodoRepository;
 import com.lambdaschool.todos.services.UserService;
 import com.lambdaschool.todos.views.UserNameCountTodos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class UserController {
      */
     @Autowired
     private UserService userService;
+
+    @Autowired
+    TodoRepository todoRepository;
 
     /**
      * Returns a list of all users
