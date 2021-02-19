@@ -6,4 +6,3 @@ public interface UserNameCountTodos {
     String getUsername();
     int getCountUserTodos();
 }
-    
