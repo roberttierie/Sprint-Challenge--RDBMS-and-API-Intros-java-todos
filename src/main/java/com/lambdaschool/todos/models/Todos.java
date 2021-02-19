@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "todos")
-public class Todo extends Auditable
+public class Todos extends Auditable
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,7 +15,7 @@ public class Todo extends Auditable
 
     @Column(nullable = false)
     private String description;
-    
+
     private boolean completed = false;
     
 
@@ -26,18 +26,22 @@ public class Todo extends Auditable
     private User user;
 
 
-    public Todo(long todoid) {
-        this.todoid = todoid;
+    public Todos()
+    {
     }
 
-    public Todo(String description, boolean completed, User user) {
+    public Todos(User user, String description) {
         this.description = description;
-        this.completed = completed;
+        this.completed = false;
         this.user = user;
     }
 
     public long getTodoid() {
         return todoid;
+    }
+
+    public boolean isCompleted() {
+        return completed;
     }
 
     public void setTodoid(long todoid) {
