@@ -28,11 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = TodosApplicationTests.class)
+        classes = TodosApplicationTests.class)
 @AutoConfigureMockMvc
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class UserControllerIntegrationTest
-{
+public class UserControllerIntegrationTest {
     @Autowired
     WebApplicationContext webApplicationContext;
 
@@ -42,57 +41,51 @@ public class UserControllerIntegrationTest
     UserService userService;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .build();
+                .build();
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
     }
 
     @Test
-    public void listAllUsers() throws Exception
-    {
+    public void listAllUsers() throws Exception {
         mockMvc.perform(get("/users/users"))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("admin")))
-            .andExpect(content().string(containsString("misskitty")));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("admin")))
+                .andExpect(content().string(containsString("misskitty")));
     }
 
     @Test
-    public void getUserById() throws Exception
-    {
+    public void getUserById() throws Exception {
         mockMvc.perform(get("/users/user/{userid}",
-            1))
-            .andDo(print())
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("admin@lambdaschool.local")));
+                1))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("admin@lambdaschool.local")));
     }
 
     @Test
-    public void addNewUser() throws Exception
-    {
+    public void addNewUser() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/users/user")
-            .content("{\"username\": \"testUser\", \"password\": \"password\", \"primaryemail\": \"test@email.com\"}")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON))
-            .andDo(print())
-            .andExpect(status().isCreated());
+                .content("{\"username\": \"testUser\", \"password\": \"password\", \"primaryemail\": \"test@email.com\"}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 
     @Test
-    public void z_deleteUserById() throws Exception
-    {
+    public void z_deleteUserById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/users/user/{id}",
-            1))
-            .andDo(print())
-            .andExpect(status().is2xxSuccessful());
+                1))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
     }
 
 //    Stretch Goal

@@ -26,10 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = TodosApplicationTests.class)
+        classes = TodosApplicationTests.class)
 @AutoConfigureMockMvc
-public class TodosControllerIntegrationTest
-{
+public class TodosControllerIntegrationTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -42,40 +41,37 @@ public class TodosControllerIntegrationTest
     TodosService todosService;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         RestAssuredMockMvc.webAppContextSetup(webApplicationContext);
 
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-            .build();
+                .build();
     }
 
     @After
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
     }
 
     @Test
     @Transactional
-    public void completeTodo() throws Exception
-    {
+    public void completeTodo() throws Exception {
         User newUser = new User("testUser",
-            "testpassword",
-            "test@email.com");
+                "testpassword",
+                "test@email.com");
         newUser.getTodos()
-            .add(new Todos(newUser,
-                "testTodo"));
+                .add(new Todos(newUser,
+                        "testTodo"));
         newUser = userService.save(newUser);
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/todos/todo/{todoid}",
-            newUser.getTodos()
-                .get(0)
-                .getTodoid()))
-            .andExpect(status().isOk());
+                newUser.getTodos()
+                        .get(0)
+                        .getTodoid()))
+                .andExpect(status().isOk());
 
         newUser = userService.findUserById(newUser.getUserid());
         assertTrue(newUser.getTodos()
-            .get(0)
-            .isCompleted());
+                .get(0)
+                .isCompleted());
     }
 }
